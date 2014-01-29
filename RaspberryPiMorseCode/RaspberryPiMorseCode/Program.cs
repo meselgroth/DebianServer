@@ -13,12 +13,14 @@ namespace RaspberryPiMorseCode
             Console.WriteLine("Type 1 to turn led on");
             Console.WriteLine("Type 0 to turn led off");
 
-            while (input != "x")
+            using (var gpioCaller = new GpioCaller())
             {
-                input = Console.ReadLine();
-
-                var gpioCaller = new GpioCaller();
-                gpioCaller.Light(input);
+                while (input != "x")
+                {
+                    input = Console.ReadLine();
+                    
+                    gpioCaller.Light(input);
+                } 
             }
         }
     }

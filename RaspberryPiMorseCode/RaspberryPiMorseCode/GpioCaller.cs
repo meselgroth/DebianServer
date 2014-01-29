@@ -3,13 +3,19 @@ using System;
 
 namespace RaspberryPiMorseCode
 {
-    public class GpioCaller
+    public class GpioCaller:IDisposable
     {
+        private GpioConnection connection;
+        private OutputPinConfiguration led1;
+
+        public GpioCaller()
+        {
+            led1 = ConnectorPin.P1Pin11.Output();
+            connection = new GpioConnection(led1);
+        }
+
         public void Light(string input)
         {
-            var led1 = ConnectorPin.P1Pin11.Output();
-            var connection = new GpioConnection(led1);
-
             if (input=="1")
             {
                 Console.WriteLine("...turning light on");
@@ -19,6 +25,10 @@ namespace RaspberryPiMorseCode
             {
                 Console.WriteLine("...turning light off");
             }
+        }
+
+        public void Dispose()
+        {
             connection.Close();
         }
     }
